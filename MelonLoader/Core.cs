@@ -9,7 +9,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using bHapticsLib;
 
-#if NET6_0
+#if NET6_0_OR_GREATER
 using System.Threading;
 using MelonLoader.CoreClrUtils;
 #endif
@@ -17,7 +17,7 @@ using MelonLoader.CoreClrUtils;
 
 namespace MelonLoader
 {
-	internal static class Core
+    internal static class Core
     {
         internal static HarmonyLib.Harmony HarmonyInstance;
         
@@ -29,7 +29,7 @@ namespace MelonLoader
         {
             MelonLaunchOptions.Load();
 
-#if NET6_0
+#if NET6_0_OR_GREATER
             if (MelonLaunchOptions.Core.UserWantsDebugger && MelonEnvironment.IsDotnetRuntime)
             {
                 Console.WriteLine("[Init] User requested debugger, attempting to launch now...");
@@ -71,7 +71,7 @@ namespace MelonLoader
 
             HarmonyInstance = new HarmonyLib.Harmony(BuildInfo.Name);
             
-#if NET6_0
+#if NET6_0_OR_GREATER
             // if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 // NativeStackWalk.LogNativeStackTrace();
 
@@ -170,12 +170,12 @@ namespace MelonLoader
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
             internal readonly string CSDVersion;
         }
-        
+
         internal static string GetOSVersion()
         {
             if (MelonUtils.IsUnix || MelonUtils.IsMac)
                 return Environment.OSVersion.VersionString;
-            
+
             if (MelonUtils.IsUnderWineOrSteamProton())
                 return $"Wine {WineGetVersion()}";
             RtlGetVersion(out OsVersionInfo versionInformation);
@@ -238,7 +238,7 @@ namespace MelonLoader
             if (MelonLaunchOptions.Core.QuitFix)
                 Process.GetCurrentProcess().Kill();
         }
-        
+
         private static void SetupWineCheck()
         {
             if (MelonUtils.IsUnix || MelonUtils.IsMac)
